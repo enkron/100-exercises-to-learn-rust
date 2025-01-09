@@ -10,6 +10,15 @@
 //
 // Use only what you learned! No loops yet, so you'll have to use recursion!
 
+#[allow(unused_variables)]
+fn factorial(n: u64) -> u64 {
+    if n >= 1 {
+        n * factorial(n - 1)
+    } else {
+        1
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use crate::factorial;
