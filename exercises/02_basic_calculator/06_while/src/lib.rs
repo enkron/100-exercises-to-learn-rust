@@ -1,5 +1,4 @@
 // Rewrite the factorial function using a `while` loop.
-#[allow(unused_variables)]
 pub fn factorial(n: u32) -> u32 {
     let mut i = 1;
     let mut f = 1;
