@@ -1,3 +1,4 @@
+#[allow(dead_code)]
 pub struct Ticket {
     title: String,
     description: String,
@@ -13,7 +14,8 @@ mod tests {
 
     #[test]
     fn string_size() {
-        assert_eq!(size_of::<String>(), todo!());
+        println!("{}", size_of::<String>());
+        assert_eq!(size_of::<String>(), 24);
     }
 
     #[test]
@@ -23,6 +25,6 @@ mod tests {
         // but, in general, the memory layout of structs is a more complex topic.
         // If you're curious, check out the "Type layout" section of The Rust Reference
         // https://doc.rust-lang.org/reference/type-layout.html for more information.
-        assert_eq!(size_of::<Ticket>(), todo!());
+        assert_eq!(size_of::<Ticket>(), 72);
     }
 }
