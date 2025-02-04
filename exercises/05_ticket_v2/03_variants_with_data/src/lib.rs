@@ -9,6 +9,7 @@ struct Ticket {
     status: Status,
 }
 
+#[allow(dead_code)]
 #[derive(Debug, PartialEq)]
 enum Status {
     ToDo,
@@ -17,6 +18,7 @@ enum Status {
 }
 
 impl Ticket {
+    #[allow(dead_code)]
     pub fn new(title: String, description: String, status: Status) -> Ticket {
         if title.is_empty() {
             panic!("Title cannot be empty");
@@ -37,8 +39,13 @@ impl Ticket {
             status,
         }
     }
+
+    #[allow(dead_code)]
     pub fn assigned_to(&self) -> &str {
-        todo!()
+        match &self.status {
+            Status::InProgress { assigned_to } => assigned_to.as_str(),
+            _ => panic!("Only `In-Progress` tickets can be assigned to someone"),
+        }
     }
 }
 
