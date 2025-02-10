@@ -1,6 +1,13 @@
 // TODO: Define a function named `sum` that takes a reference to a slice of `u32` and returns the sum of all
 //  elements in the slice.
 
+#[allow(dead_code)]
+fn sum(s: &[u32]) -> u32 {
+    let mut sum = 0;
+    s.iter().for_each(|e| sum += e);
+    sum
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
