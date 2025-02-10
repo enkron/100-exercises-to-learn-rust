@@ -20,6 +20,7 @@ pub enum Status {
     Done,
 }
 
+#[allow(clippy::new_without_default)]
 impl TicketStore {
     pub fn new() -> Self {
         Self {
@@ -32,6 +33,15 @@ impl TicketStore {
     }
 
     pub fn iter(&self) -> std::slice::Iter<Ticket> {
+        self.tickets.iter()
+    }
+}
+
+impl<'t> IntoIterator for &'t TicketStore {
+    type Item = &'t Ticket;
+    type IntoIter = std::slice::Iter<'t, Ticket>;
+
+    fn into_iter(self) -> Self::IntoIter {
         self.tickets.iter()
     }
 }
