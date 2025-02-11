@@ -7,13 +7,14 @@ use std::collections::BTreeMap;
 use std::ops::{Index, IndexMut};
 use ticket_fields::{TicketDescription, TicketTitle};
 
+#[allow(dead_code)]
 #[derive(Clone)]
 pub struct TicketStore {
     tickets: BTreeMap<TicketId, Ticket>,
     counter: u64,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub struct TicketId(u64);
 
 #[derive(Clone, Debug, PartialEq)]
@@ -37,10 +38,11 @@ pub enum Status {
     Done,
 }
 
+#[allow(clippy::new_without_default)]
 impl TicketStore {
     pub fn new() -> Self {
         Self {
-            tickets: todo!(),
+            tickets: BTreeMap::new(),
             counter: 0,
         }
     }
@@ -54,16 +56,16 @@ impl TicketStore {
             description: ticket.description,
             status: Status::ToDo,
         };
-        todo!();
+        self.tickets.insert(id, ticket);
         id
     }
 
     pub fn get(&self, id: TicketId) -> Option<&Ticket> {
-        todo!()
+        self.tickets.get(&id)
     }
 
     pub fn get_mut(&mut self, id: TicketId) -> Option<&mut Ticket> {
-        todo!()
+        self.tickets.get_mut(&id)
     }
 }
 
@@ -95,6 +97,16 @@ impl IndexMut<&TicketId> for TicketStore {
     }
 }
 
+impl<'t> IntoIterator for &'t TicketStore {
+    type Item = &'t Ticket;
+    type IntoIter = std::collections::btree_map::Values<'t, TicketId, Ticket>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.tickets.values()
+    }
+}
+
+#[allow(unused_variables)]
 #[cfg(test)]
 mod tests {
     use crate::{Status, TicketDraft, TicketId, TicketStore};
