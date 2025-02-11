@@ -33,6 +33,7 @@ pub enum Status {
     Done,
 }
 
+#[allow(clippy::new_without_default)]
 impl TicketStore {
     pub fn new() -> Self {
         Self {
@@ -72,6 +73,18 @@ impl Index<&TicketId> for TicketStore {
 
     fn index(&self, index: &TicketId) -> &Self::Output {
         &self[*index]
+    }
+}
+
+impl std::ops::IndexMut<TicketId> for TicketStore {
+    fn index_mut(&mut self, index: TicketId) -> &mut Self::Output {
+        self.tickets.iter_mut().find(|t| t.id == index).unwrap()
+    }
+}
+
+impl std::ops::IndexMut<&TicketId> for TicketStore {
+    fn index_mut(&mut self, index: &TicketId) -> &mut Self::Output {
+        &mut self[*index]
     }
 }
 
