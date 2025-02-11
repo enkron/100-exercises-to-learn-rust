@@ -37,6 +37,7 @@ pub enum Status {
     Done,
 }
 
+#[allow(clippy::new_without_default)]
 impl TicketStore {
     pub fn new() -> Self {
         Self {
@@ -44,8 +45,27 @@ impl TicketStore {
         }
     }
 
-    pub fn add_ticket(&mut self, ticket: Ticket) {
+    pub fn add_ticket(&mut self, draft: TicketDraft) -> TicketId {
+        let id = TicketId(self.tickets.len() as u64 + 1);
+
+        let ticket = Ticket {
+            id,
+            title: draft.title,
+            description: draft.description,
+            status: Status::ToDo,
+        };
+
         self.tickets.push(ticket);
+        id
+    }
+
+    pub fn get(&self, id: TicketId) -> Option<&Ticket> {
+        let mut filtered_ticket = self
+            .tickets
+            .iter()
+            .filter(|t| t.id == id)
+            .collect::<Vec<&Ticket>>();
+        filtered_ticket.pop()
     }
 }
 
@@ -54,6 +74,7 @@ mod tests {
     use crate::{Status, TicketDraft, TicketStore};
     use ticket_fields::test_helpers::{ticket_description, ticket_title};
 
+    #[allow(unused_variables)]
     #[test]
     fn works() {
         let mut store = TicketStore::new();
