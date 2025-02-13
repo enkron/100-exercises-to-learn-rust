@@ -14,8 +14,17 @@
 // this is necessary in the next exercise.
 use std::thread;
 
+#[allow(unused_variables)]
 pub fn sum(v: Vec<i32>) -> i32 {
-    todo!()
+    let (first, second) = v.split_at(&v.len() / 2);
+
+    let v_split1 = first.to_vec();
+    let v_split2 = second.to_vec();
+
+    let first_handle = thread::spawn(move || v_split1.iter().sum::<i32>());
+    let second_handle = thread::spawn(move || v_split2.iter().sum::<i32>());
+
+    first_handle.join().unwrap() + second_handle.join().unwrap()
 }
 
 #[cfg(test)]
