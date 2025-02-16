@@ -4,20 +4,21 @@
 use std::cell::RefCell;
 use std::rc::Rc;
 
+#[allow(dead_code)]
 pub struct DropTracker<T> {
     value: T,
-    counter: todo!(),
+    counter: Rc<RefCell<usize>>,
 }
 
 impl<T> DropTracker<T> {
-    pub fn new(value: T, counter: todo!()) -> Self {
+    pub fn new(value: T, counter: Rc<RefCell<usize>>) -> Self {
         Self { value, counter }
     }
 }
 
 impl<T> Drop for DropTracker<T> {
     fn drop(&mut self) {
-        todo!()
+        *self.counter.borrow_mut() += 1;
     }
 }
 
@@ -32,6 +33,7 @@ mod tests {
         assert_eq!(*counter.borrow(), 1);
     }
 
+    #[allow(unused_variables)]
     #[test]
     fn multiple() {
         let counter = Rc::new(RefCell::new(0));
