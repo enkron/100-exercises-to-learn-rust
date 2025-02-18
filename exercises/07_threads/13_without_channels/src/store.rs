@@ -12,6 +12,7 @@ pub struct TicketStore {
     counter: u64,
 }
 
+#[allow(clippy::new_without_default)]
 impl TicketStore {
     pub fn new() -> Self {
         Self {
