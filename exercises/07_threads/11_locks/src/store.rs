@@ -11,6 +11,7 @@ pub struct TicketStore {
     counter: u64,
 }
 
+#[allow(clippy::new_without_default)]
 impl TicketStore {
     pub fn new() -> Self {
         Self {
@@ -28,13 +29,15 @@ impl TicketStore {
             description: ticket.description,
             status: Status::ToDo,
         };
-        todo!();
+
+        let mutex = std::sync::Arc::new(std::sync::Mutex::new(ticket));
+        self.tickets.insert(id, mutex);
         id
     }
 
     // The `get` method should return a handle to the ticket
     // which allows the caller to either read or modify the ticket.
-    pub fn get(&self, id: TicketId) -> Option<todo!()> {
-        todo!()
+    pub fn get(&self, id: TicketId) -> Option<Arc<Mutex<Ticket>>> {
+        self.tickets.get(&id).cloned()
     }
 }
