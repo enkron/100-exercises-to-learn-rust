@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 //! TODO: get the code to compile by **re-ordering** the statements
 //!  in the `example` function. You're not allowed to change the
 //!  `spawner` function nor what each line does in `example`.
@@ -10,7 +11,7 @@ fn spawner() {
 }
 
 async fn example() {
-    let non_send = Rc::new(1);
     yield_now().await;
+    let non_send = Rc::new(1);
     println!("{}", non_send);
 }
